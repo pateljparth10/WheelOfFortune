@@ -7,14 +7,15 @@ player_3_bank = 0
 player_1_temp_bank =100
 player_2_temp_bank =500
 player_3_temp_bank =1000
-turn_counter = 0
-current_bank = player_1_temp_bank
+turn_counter = 1
+current_bank = player_2_temp_bank
 guess_list = []
 word_list = []
 vowel_list = ("a","e","i", "o", "u")
 
 def end_turn():
     global turn_counter
+    global current_bank
     turn_counter += 1
     if turn_counter %3 == 0:
         current_bank = player_1_temp_bank
@@ -152,5 +153,14 @@ def guess_the_word():
     else:
         print("That is not correct. You lose your turn.")
         end_turn()
+
+def buy_vowel():
+    global current_bank
+    if current_bank < 250:
+        print("You do not have enough money in your bank account to buy a vowel!")
+    else:
+        check_vowel_function()
+        current_bank -= 250
+        print(f"Your current total in your bank is: {current_bank}")
 
 
