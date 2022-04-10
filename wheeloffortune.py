@@ -7,7 +7,7 @@ player_3_bank = 0
 player_1_temp_bank =100
 player_2_temp_bank =500
 player_3_temp_bank =1000
-turn_counter = 1
+turn_counter = 0
 current_bank = player_2_temp_bank
 guess_list = []
 word_list = []
@@ -19,20 +19,20 @@ def end_turn():
     turn_counter += 1
     if turn_counter %3 == 0:
         current_bank = player_1_temp_bank
-        print(f"Current Player is Player 1. Current Bank total is : {player_1_temp_bank}")
+        print(f"Current Player is Player 1. Current Bank total is : ${player_1_temp_bank}")
     elif turn_counter %3 == 1:
         current_bank = player_2_temp_bank
-        print(f"Current Player is Player 2. Current Bank total is : {player_2_temp_bank}")
+        print(f"Current Player is Player 2. Current Bank total is : ${player_2_temp_bank}")
     elif turn_counter %3 == 2:
         current_bank = player_3_temp_bank
-        print(f"Current Player is Player 3. Current Bank total is : {player_3_temp_bank}")
+        print(f"Current Player is Player 3. Current Bank total is : ${player_3_temp_bank}")
     else:
         print("This should not be shown.")
 
 def wheel_spin():
     wheel = ["Bankrupt","Lose a Turn",100,150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700,
     750, 800, 850, 900]
-    spin = random.randint(0, len(wheel))
+    spin = random.randint(0, len(wheel)-1)
     return wheel[spin]
 
 
@@ -84,45 +84,58 @@ def check_vowel_function():
             check_vowel_loop = False
 
 def check_consonant_function():
-    spin = wheel_spin()
-    global current_bank
-    if spin == "Bankrupt":
-        print("You landed on Bankrupt! You lose your money and your turn.")
-        current_bank = 0
-        end_turn()
-    elif spin == "Lose a Turn":
-        print("You landed on Lose a Turn! Your turn ends.")
-    else:
-        print(f"You landed on ${spin}")
     check_consonant_loop = True
+    global player_1_temp_bank
+    global player_2_temp_bank
+    global player_3_temp_bank
+    global turn_counter
     while check_consonant_loop:
-        guess = str(input("Please enter a consonant: "))
-        if guess not in vowel_list:
-            if guess in guess_list:
-                print(f"{guess} has already been chosen. The guessed words or letters are {guess_list}. That has ended your turn.")
-                check_consonant_loop = False
-                end_turn()
-            else:
-                if(word_guess.find(guess)== -1):
-                    guess_list.append(guess)
-                    print(guess + " was not in the word. You have lost your turn.")
+        spin = wheel_spin()
+        global current_bank
+        if spin == "Bankrupt":
+            print("You landed on Bankrupt! You lose your money and your turn.")
+            current_bank = 0
+            if turn_counter %3 == 0:
+                player_1_temp_bank = current_bank
+            elif turn_counter %3 ==1:
+                player_2_temp_bank = current_bank
+            elif turn_counter %3 == 2:
+                player_3_temp_bank = current_bank
+            end_turn()
+            check_consonant_loop = False
+        elif spin == "Lose a Turn":
+            print("You landed on Lose a Turn! Your turn ends.")
+            end_turn()
+            check_consonant_loop = False
+        else:
+            print(f"You landed on ${spin}")
+            guess = str(input("Please enter a consonant: "))
+            if guess not in vowel_list:
+                if guess in guess_list:
+                    print(f"{guess} has already been chosen. The guessed words or letters are {guess_list}. That has ended your turn.")
                     check_consonant_loop = False
                     end_turn()
                 else:
-                    guess_list.append(guess)
-                    letters = 0
-                    for position,letter in enumerate(word_guess):
-                        if (letter == guess):
-                            blank_word[position] = guess
-                            letters += 1
-                    print(blank_word)
-                    current_bank += spin * letters
-                    print(f"Your current bank total is: ${current_bank}")
-                    check_consonant_loop = False
-        else:
-            print("That is not a consonant. You lose your turn.")
-            end_turn()
-            check_consonant_loop = False
+                    if(word_guess.find(guess)== -1):
+                        guess_list.append(guess)
+                        print(guess + " was not in the word. You have lost your turn.")
+                        check_consonant_loop = False
+                        end_turn()
+                    else:
+                        guess_list.append(guess)
+                        letters = 0
+                        for position,letter in enumerate(word_guess):
+                            if (letter == guess):
+                                blank_word[position] = guess
+                                letters += 1
+                        print(blank_word)
+                        current_bank += spin * letters
+                        print(f"Your current bank total is: ${current_bank}")
+                        check_consonant_loop = False
+            else:
+                print("That is not a consonant. You lose your turn.")
+                end_turn()
+                check_consonant_loop = False
 
 
 def guess_the_word():
@@ -138,17 +151,17 @@ def guess_the_word():
     if word_user_guesses == word_guess:
         print("Congratulations! That is correct!")
         if turn_counter %3 == 0:
-           player_1_bank += player_1_temp_bank
+           player_1_bank += current_bank
         elif turn_counter %3 == 1:
-            player_2_bank += player_2_temp_bank
+            player_2_bank += current_bank
         elif turn_counter %3 == 2:
-            player_3_bank += player_3_temp_bank
+            player_3_bank += current_bank
         player_1_temp_bank = 0
         player_2_temp_bank = 0
         player_3_temp_bank = 0
-        print(f"Player 1 bank: {player_1_bank}")
-        print(f"Player 2 bank: {player_2_bank}")
-        print(f"Player 3 bank: {player_3_bank}")
+        print(f"Player 1 bank: ${player_1_bank}")
+        print(f"Player 2 bank: ${player_2_bank}")
+        print(f"Player 3 bank: ${player_3_bank}")
 
     else:
         print("That is not correct. You lose your turn.")
@@ -161,6 +174,7 @@ def buy_vowel():
     else:
         check_vowel_function()
         current_bank -= 250
-        print(f"Your current total in your bank is: {current_bank}")
+        print(f"Your current total in your bank is: ${current_bank}")
+
 
 
