@@ -174,8 +174,8 @@ def buy_vowel():
     if current_bank < 250:
         print("You do not have enough money in your bank account to buy a vowel!")
     else:
-        check_vowel_function()
         current_bank -= 250
+        check_vowel_function()
         print(f"Your current total in your bank is: ${current_bank}")
 
 def final_round():
@@ -253,6 +253,7 @@ def final_round():
 
 wheel_of_fortune_menu_loop_round_1 = True
 get_word()
+print(word_guess)
 while wheel_of_fortune_menu_loop_round_1:
     print("ROUND 1")
     print("Please choose one of the following: ")
@@ -268,8 +269,10 @@ while wheel_of_fortune_menu_loop_round_1:
         wheel_of_fortune_menu_loop_round_1 = guess_the_word()
     else:
         print("That is not a valid choice.")
-    
+
+guess_list = []
 get_word()
+print(word_guess)
 wheel_of_fortune_menu_loop_round_2 = True
 while wheel_of_fortune_menu_loop_round_2:
     print("ROUND 2")
