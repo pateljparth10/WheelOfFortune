@@ -4,10 +4,9 @@ import random
 player_1_bank = 0
 player_2_bank = 0
 player_3_bank = 0
-player_1_temp_bank =0
-player_2_temp_bank =0
-player_3_temp_bank =0
-global turn_counter 
+player_1_temp_bank =100
+player_2_temp_bank =500
+player_3_temp_bank =1000
 turn_counter = 0
 current_bank = player_1_temp_bank
 guess_list = []
@@ -29,6 +28,11 @@ def end_turn():
     else:
         print("This should not be shown.")
 
+def wheel_spin():
+    wheel = ["Bankrupt","Lose a Turn",100,150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700,
+    750, 800, 850, 900]
+    spin = random.randint(0, len(wheel))
+    return wheel[spin]
 
 
 def get_word():
@@ -79,6 +83,16 @@ def check_vowel_function():
             check_vowel_loop = False
 
 def check_consonant_function():
+    spin = wheel_spin()
+    global current_bank
+    if spin == "Bankrupt":
+        print("You landed on Bankrupt! You lose your money and your turn.")
+        current_bank = 0
+        end_turn()
+    elif spin == "Lose a Turn":
+        print("You landed on Lose a Turn! Your turn ends.")
+    else:
+        print(f"You landed on ${spin}")
     check_consonant_loop = True
     while check_consonant_loop:
         guess = str(input("Please enter a consonant: "))
@@ -95,10 +109,14 @@ def check_consonant_function():
                     end_turn()
                 else:
                     guess_list.append(guess)
+                    letters = 0
                     for position,letter in enumerate(word_guess):
                         if (letter == guess):
                             blank_word[position] = guess
+                            letters += 1
                     print(blank_word)
+                    current_bank += spin * letters
+                    print(f"Your current bank total is: ${current_bank}")
                     check_consonant_loop = False
         else:
             print("That is not a consonant. You lose your turn.")
@@ -106,6 +124,33 @@ def check_consonant_function():
             check_consonant_loop = False
 
 
-get_word()
-check_vowel_function()
-check_consonant_function()
+def guess_the_word():
+    global turn_counter
+    global player_1_bank
+    global player_2_bank
+    global player_3_bank
+    global current_bank
+    global player_1_temp_bank
+    global player_2_temp_bank
+    global player_3_temp_bank
+    word_user_guesses = input("Enter your guess for the word: ")
+    if word_user_guesses == word_guess:
+        print("Congratulations! That is correct!")
+        if turn_counter %3 == 0:
+           player_1_bank += player_1_temp_bank
+        elif turn_counter %3 == 1:
+            player_2_bank += player_2_temp_bank
+        elif turn_counter %3 == 2:
+            player_3_bank += player_3_temp_bank
+        player_1_temp_bank = 0
+        player_2_temp_bank = 0
+        player_3_temp_bank = 0
+        print(f"Player 1 bank: {player_1_bank}")
+        print(f"Player 2 bank: {player_2_bank}")
+        print(f"Player 3 bank: {player_3_bank}")
+
+    else:
+        print("That is not correct. You lose your turn.")
+        end_turn()
+
+
