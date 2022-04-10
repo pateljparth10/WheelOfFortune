@@ -162,10 +162,12 @@ def guess_the_word():
         print(f"Player 1 bank: ${player_1_bank}")
         print(f"Player 2 bank: ${player_2_bank}")
         print(f"Player 3 bank: ${player_3_bank}")
+        return False
 
     else:
         print("That is not correct. You lose your turn.")
         end_turn()
+        return True
 
 def buy_vowel():
     global current_bank
@@ -175,6 +177,65 @@ def buy_vowel():
         check_vowel_function()
         current_bank -= 250
         print(f"Your current total in your bank is: ${current_bank}")
+
+def final_round():
+    global player_1_bank
+    global player_2_bank
+    global player_3_bank
+    final_round_bank = 0
+    final_round_player_winning = 1000000
+    if player_1_bank > player_2_bank and player_1_bank > player_3_bank:
+        print("Congratulation Player 1! You are in the final round.")
+        final_round_bank = player_1_bank
+    elif player_2_bank > player_1_bank and player_2_bank > player_3_bank:
+        print("Congratulation Player 2! You are in the final round.")
+        final_round_bank = player_2_bank
+    elif player_3_bank > player_1_bank and player_3_bank > player_2_bank:
+        print("Congratulation Player 3! You are in the final round.")  
+        final_round_bank = player_3_bank
+    else:
+        print("There is no final round. Two players have the same amount in their bank.")
+    get_word()
+
+final_round()
+
+# wheel_of_fortune_menu_loop_round_1 = True
+# get_word()
+# print(word_guess)
+# while wheel_of_fortune_menu_loop_round_1:
+#     print("ROUND 1")
+#     print("Please choose one of the following: ")
+#     print("1. Spin the wheel and guess a consonant.")
+#     print("2. Buy a vowel for $250")
+#     print("3. Guess the word")
+#     choice = input("What will you be doing? [1] [2] or [3] ")
+#     if choice == "1":
+#         check_consonant_function()
+#     elif choice == "2":
+#         buy_vowel()
+#     elif choice == "3":
+#         wheel_of_fortune_menu_loop_round_1 = guess_the_word()
+#     else:
+#         print("That is not a valid choice.")
+    
+# get_word()
+# print(word_guess)
+# wheel_of_fortune_menu_loop_round_2 = True
+# while wheel_of_fortune_menu_loop_round_2:
+#     print("ROUND 2")
+#     print("Please choose one of the following: ")
+#     print("1. Spin the wheel and guess a consonant.")
+#     print("2. Buy a vowel for $250")
+#     print("3. Guess the word")
+#     choice = input("What will you be doing? [1] [2] or [3] ")
+#     if choice == "1":
+#         check_consonant_function()
+#     elif choice == "2":
+#         buy_vowel()
+#     elif choice == "3":
+#         wheel_of_fortune_menu_loop_round_2 = guess_the_word()
+#     else:
+#         print("That is not a valid choice.")
 
 
 
