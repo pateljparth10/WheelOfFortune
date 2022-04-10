@@ -183,7 +183,7 @@ def final_round():
     global player_2_bank
     global player_3_bank
     final_round_bank = 0
-    final_round_player_winning = 1000000
+    final_round_player_winning = 10000
     if player_1_bank > player_2_bank and player_1_bank > player_3_bank:
         print("Congratulation Player 1! You are in the final round.")
         final_round_bank = player_1_bank
@@ -193,9 +193,65 @@ def final_round():
     elif player_3_bank > player_1_bank and player_3_bank > player_2_bank:
         print("Congratulation Player 3! You are in the final round.")  
         final_round_bank = player_3_bank
-    else:
-        print("There is no final round. Two players have the same amount in their bank.")
     get_word()
+    print("We are giving you the letters R, S, T, L, N, E")
+    final_round_guess = "r"
+    for position,letter in enumerate(word_guess):
+        if (letter == final_round_guess):
+            blank_word[position] = final_round_guess
+    final_round_guess = "s"
+    for position,letter in enumerate(word_guess):
+        if (letter == final_round_guess):
+            blank_word[position] = final_round_guess
+    final_round_guess = "t"
+    for position,letter in enumerate(word_guess):
+        if (letter == final_round_guess):
+            blank_word[position] = final_round_guess
+    final_round_guess = "l"
+    for position,letter in enumerate(word_guess):
+        if (letter == final_round_guess):
+            blank_word[position] = final_round_guess
+    final_round_guess = "n"
+    for position,letter in enumerate(word_guess):
+        if (letter == final_round_guess):
+            blank_word[position] = final_round_guess
+    final_round_guess = "e"
+    for position,letter in enumerate(word_guess):
+        if (letter == final_round_guess):
+            blank_word[position] = final_round_guess
+    print(blank_word)
+    print(word_guess)
+    print("Please choose 3 consonants and 1 vowel.")
+    consonant_guess_1 = input("Please choose your first consonant: ")
+    for position,letter in enumerate(word_guess):
+        if (letter == consonant_guess_1):
+            blank_word[position] = consonant_guess_1
+    
+    consonant_guess_2 = input("Please choose your second consonant: ")
+    for position,letter in enumerate(word_guess):
+        if (letter == consonant_guess_2):
+            blank_word[position] = consonant_guess_2
+
+    consonant_guess_3 = input("Please choose your third consonant: ")
+    for position,letter in enumerate(word_guess):
+        if (letter == consonant_guess_3):
+            blank_word[position] = consonant_guess_3
+
+    vowel_guess = input("Please choose your vowel: ")
+    for position,letter in enumerate(word_guess):
+        if (letter == vowel_guess):
+            blank_word[position] = vowel_guess
+    print(blank_word)
+    print("You have one guess to win the final round.")
+    final_guess = input("What is your guess? ")
+    if final_guess == word_guess:
+        final_round_bank += final_round_player_winning
+        print(f"Congratulation! That is correct you win ${final_round_player_winning}")
+        print(f"You won a total of ${final_round_bank}")
+    else:
+        print(f"Unfortunately, that is incorrect, but you won a total of ${final_round_bank}")
+    
+
 
 final_round()
 
